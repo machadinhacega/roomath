@@ -8,7 +8,7 @@ while True:
        if escolha1 == '1':
          print('##### Adicionar #####')
          nomeusuario = input ('Digite seu nome: ')
-         print ('Seja bem vindo ao Roomath,', nomeusuario
+         print ('Seja bem vindo ao Roomath,', nomeusuario)
          novousuario = input('Você gostaria de adicionar mais um perfil? ')
          while novousuario == 'sim':
              print('##### Adicionar #####')
