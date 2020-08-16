@@ -22,11 +22,12 @@ Escolha sua opção
                 print('##### Adicionar #####')
                 nomeusuario = input('Digite seu nome: ').title()
                 todos.append(nomeusuario)
+
                 print('Seja bem vindo ao Roomath,', nomeusuario)
                 while True:
                     questNovoUsuario = input('Você gostaria de adicionar mais um perfil? ').lower()
                     if questNovoUsuario == 'sim':
-                        nomeusuario = input('Digite um novo nome: ')
+                        nomeusuario = input('Digite um novo nome: ').title()
                         todos.append(nomeusuario)
                         print('Seja bem vindo ao Roomath,', nomeusuario)
                     elif questNovoUsuario == 'não':
@@ -68,8 +69,8 @@ Escolha sua opção
         print('##### GERENCIAR CONTAS #####')
         while True:
             opcao = input("""Escolha uma opção:
-1 - Adicionar
-2 - Consultar
+1 - Adicionar conta
+2 - Consultar contas
 3 - Ver todas as contas
 4 - Buscar conta por status
 5 - Editar
