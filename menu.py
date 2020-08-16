@@ -1,5 +1,17 @@
 # #MENU
+from funcoes import adicionarUsuario
+from funcoes import editarUsuario
+from funcoes import excluirUsuario
+from funcoes import adicionarConta
+from funcoes import consultarConta
+from funcoes import statusConta
+from funcoes import editarConta
+from funcoes import excluirConta
+
+
 todos = []
+contas = {}
+
 while True:
     escolha1 = input(
         '\n###############################\n########## ROOMATH ###########\n###############################'
@@ -13,42 +25,19 @@ while True:
                 '\n2 - Editar perfil \n3 - Excluir perfil \n4 - Mostrar Perfis\n0 - Voltar para o menu anterior\n►  ')
             if escolha1 == '1':
                 print('##### Adicionar #####')
-                nomeusuario = input('Digite seu nome: ').title()
-                todos.append(nomeusuario)
-                print('Seja bem vindo ao Roomath,', nomeusuario)
-                while True:
-                    questNovoUsuario = input('Você gostaria de adicionar mais um perfil? ').lower()
-                    if questNovoUsuario == 'sim':
-                        nomeusuario = input('Digite um novo nome: ')
-                        todos.append(nomeusuario)
-                        print('Seja bem vindo ao Roomath,', nomeusuario)
-                    elif questNovoUsuario == 'não':
-                        break
-                    else:
-                        print('Por favor, digite SIM ou NÃO.')
+                adicionarUsuario(todos)
 
             elif escolha1 == '2':
                 print('##### Editar #####')
+                editarUsuario(todos)
 
             elif escolha1 == '3':
                 print('##### Excluir #####')
-                print('Lista de perfis:\n', todos)
-                excluirUsuario = input('Digite o nome do usuário a ser excluído: ').title()
-                todos.remove(excluirUsuario)
-                print('Lista de perfis atualizada:\n', todos)
-                while True:
-                    questExcluirUsuario = input('Você deseja excluir outro usuário? ').lower()
-                    if questExcluirUsuario == 'sim':
-                        excluirUsuario = input('Digite o nome do usuário a ser excluído: ').title()
-                        todos.remove(excluirUsuario)
-                        print('Lista de perfis atualizada:\n', todos)
-                    elif questExcluirUsuario == 'não':
-                        break
-                    else:
-                        print('Por favor, digite SIM ou NÃO.')
+                excluirUsuario(todos)
 
             elif escolha1 == '4':
-                print('Lista de perfis:\n', todos)
+                for nomes in todos:
+                    print (nomes)
                 input('Digite ENTER para continuar')
             elif escolha1 == '0':
                 break
@@ -59,25 +48,46 @@ while True:
     elif escolha1 == '2':
         print('##### GERENCIAR CONTAS #####')
         while True:
-            escolha1 = input(
-                '____________________________\n##### GERENCIAR CONTAS #####\nEscolha sua opção\n1 - Adiconar conta '
-                '\n2 - Editar conta \n3 - Excluir conta \n0 - Voltar para o menu anterior\n►  ')
+            opcao = input("""Escolha uma opção:
+        1 - Adicionar conta
+        2 - Consultar contas
+        3 - Ver todas as contas
+        4 - Buscar conta por status
+        5 - Editar
+        6 - Excluir
+        7 - Voltar
+        ►""")
 
-            if escolha1 == '1':
-                print('##### Adicionar #####')
-                nomeconta = input('Digite o nome da sua conta: ')
-                valorconta = input('Digite o valor da conta: ')
-            elif escolha1 == '2':
-                print('##### Editar conta #####')
+            # ## Adicionar
+            if opcao == '1':
+                adicionarConta(contas)
 
-            elif escolha1 == '3':
-                print('##### Excluir conta #####')
+            ## Consultar
+            if opcao == '2':
+                consultarConta(contas)
 
-            elif escolha1 == '0':
+            # Ver todas as contas
+            if opcao == '3':
+                for k, v in contas.items():
+                    print('\nDados da conta de {}: '.format(k))
+                    for k, v in contas[k].items():
+                        print(k, ': ', v)
+
+            # Buscar conta por status
+            if opcao == '4':
+                statusConta(contas)
+
+            # Editar
+            if opcao == '5':
+                editarConta(contas)
+
+            # Excluir
+            if opcao == '6':
+                excluirConta(contas)
+
+            # Voltar
+            if opcao == '7':
                 break
-
-            else:
-                print('Digite uma opção válida')
 
     elif escolha1 == '3':
         print('##### MOSTRAR VALORES #####')
@@ -88,6 +98,8 @@ while True:
         break
     else:
         print('Digite uma opção válida')
+
+
 
 
 
