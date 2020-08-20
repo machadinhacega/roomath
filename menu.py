@@ -38,18 +38,13 @@ Escolha sua opção
             elif escolha1 == '3':
                 print('##### Excluir #####')
                 excluirUsuario(todos)
-                while True:
-                    questexUsuario = input('Você deseja excluir outro usuário? ').lower()
-                    if questexUsuario == 'sim':
-                        excluirUsuario(todos)
-                    elif questexUsuario == 'não':
-                        break
-                    else:
-                        print('Por favor, digite SIM ou NÃO.')
 
             elif escolha1 == '4':
-                for nomes in todos:
-                    print (nomes)
+                if todos:
+                    for nomes in todos:
+                        print (nomes)
+                else:
+                    print('Você não tem usuários cadastrados')
                 input('Digite ENTER para continuar')
             elif escolha1 == '0':
                 break
@@ -78,7 +73,7 @@ Escolha sua opção
 0 - Voltar
 ►  """)
             if opcao == '1':
-                adicionarConta(contas)
+                adicionarConta(contas,todos)
             elif opcao == '2':
                 consultarConta(contas)
             elif opcao == '3':
@@ -104,8 +99,8 @@ Escolha sua opção
 
     elif escolha1 == '3':
         print('##### MOSTRAR VALORES #####')
-        print('Fulano deve tanto pra Sicrano')
         input('Digite ENTER para continuar')
+
 
     elif escolha1 == '0':
         print('Volte sempre!')
@@ -113,3 +108,23 @@ Escolha sua opção
 
     else:
         print('Digite uma opção válida')
+
+
+# ------------------------------------------------------------------------------------------------
+# ---------------------------- ENVIANDO E-MAIL -----------------------------------------
+# ------------------------------------------------------------------------------------------------
+## Aqui é pra se a pessoa quiser enviar um lembrete pra pagar as contas e plau
+# from funcoes_email import enviandoLembrete
+# #enviandoLembrete()
+#
+## Enviando um e-mail de cobrança
+# questEnviar = input('Quer enviar uma mesagem para pessoa que te deve?\n► ').lower()
+# while questEnviar != 'sim' and questEnviar != 'não':
+#     questEnviar = input('PQP, digita "sim" ou "não" carai. Anitta sabe...\n► ')
+# if questEnviar == 'sim':
+#     from funcoes_email import sendEmailCobranca
+#     sendEmailCobranca(input('E-mail para envio: '),input('Valor pra Cobrar: '),input('Digite o código do boleto: '))
+#     print('\nE-mail enviado com sucesso!')
+# elif questEnviar == 'não':
+#     print('Tudo bem, mas não esqueça de avisá-la')
+#     input('Digite ENTER para continuar')
