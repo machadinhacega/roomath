@@ -43,6 +43,7 @@ def editarUsuario(todos):
     else:
       print('Você não tem nenhum usuário cadastrado')
       input('Digite ENTER para continuar')
+      break
 
 
 
