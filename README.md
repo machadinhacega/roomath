@@ -1,7 +1,6 @@
 
 
-[![logotipo](https://uploaddeimagens.com.br/imagens/wwBbA08 "logotipo")](http://https://uploaddeimagens.com.br/imagens/wwBbA08 "logotipo")
-
+![](https://user-images.githubusercontent.com/68659584/90925948-80144d80-e3c8-11ea-86d4-22ad217d7230.jpg)
 - Visão Geral do projeto:  Diante da realidade de crescente custo de vida nas grandes metrópoles tornou-se cada vez mais comum o compartilhamento de casa, onde os que compartilham o lar podem ser chamados de "roommates", para ajudar na gestão financeira desses custos criamos o Roomath.
 
 ### Principais Funcionalidades
