@@ -22,12 +22,14 @@
 ### Conheça os usuários:
 
 > *"Todo mês eu e minha colega de quarto tinhamos muitas brigas relacionadas as contas, agora com Roomath o cálculo é sempre exato"* 
+
 Iza, designer, 26 anos, usuário do roomath.
 
 :house: 
 
                     
 > *"O roomath salvou meu casamento"*
+
 Nayeli, bibliotecária, 27 anos, usuário do roomath.
 
 ### Idealizadoras:
