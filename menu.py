@@ -115,8 +115,11 @@ Escolha uma opção:
 ►  """)
                     # valor total das depesas da casa
                     valorTotal = 0
+                    valorTotalPago = 0
                     for conta in contas:
                         valorTotal += contas[conta]['Valor']
+                        if contas[conta]['Status'] == 'Pago':
+                            valorTotalPago += contas[conta]['Valor']
 
                     # descobrir o quanto um usuário pagou
                     valorTotalUsuario0 = 0
@@ -125,14 +128,16 @@ Escolha uma opção:
                             valorTotalUsuario0 += contas[conta]['Valor']
 
                     # saber o q o outro pagou é valorTotal-valorTotalUsuario0
-                    valorTotalUsuario1 = valorTotal - valorTotalUsuario0
+                    valorTotalUsuario1 = valorTotalPago - valorTotalUsuario0
 
                     # descobrir a parte que cabe a cada um nas despesas da casa
                     mediaValores = valorTotal / 2
+                    mediaValoresPagos = valorTotalPago / 2
 
                     if opcaofinal == '1':
                         print('##### TOTAL DE DESPESAS #####')
-                        print('O total das despesas foi R$ {:.2f}\nFicou R$ {:.2f} para cada pessoa.'.format(valorTotal, mediaValores))
+                        print('O total das despesas foi R$ {:.2f}\nFicou R$ {:.2f} para cada pessoa.'.format(valorTotal,
+                                                                                                             mediaValores))
                         input('Digite ENTER para continuar ')
 
                     elif opcaofinal == '2':
@@ -140,22 +145,32 @@ Escolha uma opção:
                         print('{} pagou um total de R$ {:.2f}'.format(todos[0], valorTotalUsuario0))
                         if len(todos) > 1:
                             print('{} pagou um total de R$ {:.2f}'.format(todos[1], valorTotalUsuario1))
+                        if valorTotal > valorTotalPago:
+                            print('ATENÇÃO! Você tem contas em aberto. Falta cada uma pagar R$ {:.2f}.'
+                                  .format((valorTotal - valorTotalPago) / 2))
                         input('Digite ENTER para continuar ')
 
                     elif opcaofinal == '3':
                         print('##### QUEM DEVE O QUE #####')
                         if len(todos) > 1:
-                            valorPagamento = valorTotalUsuario0 - mediaValores
+                            valorPagamento = valorTotalUsuario0 - mediaValoresPagos
                             if valorPagamento > 0:
                                 print('{} deve pagar R$ {:.2f} a {}'.format(todos[1], abs(valorPagamento), todos[0]))
                             elif valorPagamento < 0:
                                 print('{} deve pagar R$ {:.2f} a {}'.format(todos[0], abs(valorPagamento), todos[1]))
                             elif valorPagamento == 0:
                                 print('Ninguém ta devendo nada a ninguém.')
+                            if valorTotal > valorTotalPago:
+                                print('ATENÇÃO! Você tem contas em aberto. Falta cada uma pagar R$ {:.2f}.'
+                                      .format((valorTotal - valorTotalPago) / 2))
                             input('Digite ENTER para continuar ')
                         else:
                             print('Arrume alguém pra dividir as contas!!')
                             input('Digite ENTER para continuar ')
+
+
+
+
                     elif opcaofinal == '0':
                         break
                     else:
