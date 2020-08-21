@@ -30,11 +30,13 @@ Iza, designer, 26 anos, usuário do roomath.
                     
 > *"O roomath salvou meu casamento"*
 
+Nayeli, bibliotecária, 27 anos, usuário do roomath
+
 :house:
 
 > *"Quase processei meu irmão, agora podemos fazer o controle de gastos aqui de casa usando o Roomath e fica super justo pra todos, ajudou demais a relação familiar"*
 
-Nayeli, bibliotecária, 27 anos, usuário do roomath.
+Marília, advogata, 27 anos, usuário do roomath.
 
 ### Idealizadoras:
 
