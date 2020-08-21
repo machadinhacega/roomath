@@ -6,15 +6,17 @@ def adicionarUsuario(todos):
   while True:
     if len(todos) < 2:
       nomeusuario = input('Digite um nome para adicionar: ').title().strip()
+      while len(nomeusuario) < 3:
+        nomeusuario = input('Isso não é nome, digite direito, feladaputa: ').title().strip()
       todos.append(nomeusuario)
       print('Cadastro de {} realizado com sucesso'.format(nomeusuario))
       questNovoUsuario = input('Você gostaria de adicionar mais um perfil? ').lower()
+      while questNovoUsuario!= 'sim' and questNovoUsuario != 'não':
+        questNovoUsuario = input('Por favor, digite SIM ou NÃO: ')
       if questNovoUsuario == 'não':
         break
-      elif questNovoUsuario != 'sim' and questNovoUsuario != 'não':
-        print('Por favor, digite SIM ou NÃO.')
     else:
-      print('Você já tem 2 usuários cadastrados e nosso programa é limitadíssimo')
+      print('Você já tem 2 usuários cadastrados e a sua casa é muuuuito pequena.')
       input('Digite ENTER para continuar')
       break
 
@@ -74,7 +76,11 @@ def excluirUsuario(todos):
 def adicionarConta(contas,todos):
   while True:
     nomeConta = input('Digite o nome da conta que deseja adicionar: ').title()
+    while nomeConta in contas:
+      nomeConta = input('Tu já registrou isso, fi dua égua. Digita uma nova: ').title()
     valor = input('Valor da conta de {}: '.format(nomeConta))
+    while '-' in valor:
+      valor = input('Puta que pariu como tu é chato. Digite um valor válido: ')
     # Verificando se o valor digitado pode ser FLOAT
     while True:
       try:
@@ -108,7 +114,7 @@ def adicionarConta(contas,todos):
     print('Conta de {} adicionada.'.format(nomeConta))
     questAdicionarConta = input('Você deseja adicionar outra conta?  ').lower()
     while questAdicionarConta != 'não' and questAdicionarConta != 'sim':
-      questAdicionarConta = input('Por favor, digite SIM ou NÃO. \nVocê deseja excluir outro usuário? ').lower()
+      questAdicionarConta = input('Por favor, digite SIM ou NÃO: ').lower()
     if questAdicionarConta == 'não':
       break
 
@@ -166,9 +172,8 @@ def buscarContaStatus(contas):
     input('Digite ENTER para continuar')
 
 
-def editarConta(contas):
+def editarConta(contas, todos):
   if contas:
-    print("dict1 Not Empty")
     nomeConta = input('Digite o nome da conta que deseja Editar: ').title()
     while nomeConta not in contas:
       print('A conta "{}" não esta cadastrada. Escolha uma das contas cadastradas:'.format(nomeConta))
@@ -199,8 +204,20 @@ def editarConta(contas):
       'Pagante': 'Ninguém pagou ainda :('
     }
     if contas[nomeConta]['Status'] == 'Pago':
-      contas[nomeConta]['Pagante'] = input('Quem pagou a conta: ').title()
-    print('\nConta de {} editada com sucesso.'.format(nomeConta))
+      if todos:
+        print('Quem pagou a conta? Escolha um dos perfis registrados:')
+        for i in todos:
+          print(i)
+        contas[nomeConta]['Pagante'] = input('► ').title().strip()
+        while contas[nomeConta]['Pagante'] not in todos:
+          print('Por favor, escolha um perfil registrado')
+          for i in todos:
+            print(i)
+          contas[nomeConta]['Pagante'] = input('Quem pagou a conta: ').title().strip()
+      else:
+        print('Você não pode adicionar pagantes por que não tem nenhum perfil cadastrado.'
+              '\nMas fique tranquile, você pode editar essa conta futuramente.')
+    print('Conta de {} editada com sucesso.'.format(nomeConta))
     input('Digite ENTER para continuar')
   else:
     print('Você não tem nenhuma conta cadastrada')
