@@ -14,7 +14,9 @@
 - Mostrando valores:
 	- Opção central do projeto, mostra os valores de contas pagos (total das despesas), quais contas foram pagas por cada usuário e se existe diferença de valor entre as contas pagas por cada usuário.
 
+### Funcionalidade adicional
 
+- Envie emails personalizados para lembrar das suas contas não pagas ou débitos com seu roomie.
 
 
 ### Conheça os usuários:
