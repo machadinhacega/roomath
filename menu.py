@@ -2,7 +2,7 @@ todos = []
 contas = {}
 
 while True:
-    escolha1 = input("""###############################
+    escolha1 = input("""\n###############################
 ########## ROOMATH ###########
 ###############################
 ____________________________
@@ -90,7 +90,7 @@ Escolha sua opção
             elif opcao == '4':
                 buscarContaStatus(contas)
             elif opcao == '5':
-                editarConta(contas)
+                editarConta(contas, todos)
             elif opcao == '6':
                 excluirConta(contas)
             elif opcao == '0':
@@ -102,54 +102,75 @@ Escolha sua opção
     elif escolha1 == '3':
         print('##### MOSTRAR VALORES #####')
         while True:
-            opcaofinal = input("""\nEscolha uma opção:
-        1 - Total de despesas
-        2 - O que foi pago por cada usuário
-        3 - Quem deve a quem e quanto
-        0 - Voltar
-        ►  """)
+            # Verificando se "TODOS" NÃO ta vazio
+            if todos:
+                # Verificando se "CONTAS" NÃO ta vazio
+                if contas:
+                    opcaofinal = input("""
+Escolha uma opção:
+1 - Total de despesas
+2 - O que foi pago por cada usuário
+3 - Quem deve a quem e quanto
+0 - Voltar
+►  """)
+                    # valor total das depesas da casa
+                    valorTotal = 0
+                    for conta in contas:
+                        valorTotal += contas[conta]['Valor']
 
-            # valor total das depesas da casa
-            valorTotal = 0
-            for conta in contas:
-                valorTotal += contas[conta]['Valor']
+                    # descobrir o quanto um usuário pagou
+                    valorTotalUsuario0 = 0
+                    for conta in contas:
+                        if contas[conta]['Pagante'] == todos[0]:
+                            valorTotalUsuario0 += contas[conta]['Valor']
 
-            # descobrir o quanto um usuário pagou
-            valorTotalUsuario0 = 0
-            for conta in contas:
-                if contas[conta]['Pagante'] == todos[0]:
-                    valorTotalUsuario0 += contas[conta]['Valor']
+                    # saber o q o outro pagou é valorTotal-valorTotalUsuario0
+                    valorTotalUsuario1 = valorTotal - valorTotalUsuario0
 
-            # saber o q o outro pagou é valorTotal-valorTotalUsuario0
-            valorTotalUsuario1 = valorTotal - valorTotalUsuario0
+                    # descobrir a parte que cabe a cada um nas despesas da casa
+                    mediaValores = valorTotal / 2
 
-            # descobrir a parte que cabe a cada um nas despesas da casa
-            mediaValores = valorTotal / 2
+                    if opcaofinal == '1':
+                        print('##### TOTAL DE DESPESAS #####')
+                        print('O total das despesas foi R$ {:.2f}\nFicou R$ {:.2f} para cada pessoa.'.format(valorTotal, mediaValores))
+                        input('Digite ENTER para continuar ')
 
-            if opcaofinal == '1':
-                print('##### TOTAL DE DESPESAS #####')
-                print('O total das despesas foi R$ {:.2f}'.format(valorTotal))
-                input('Digite ENTER para continuar ')
+                    elif opcaofinal == '2':
+                        print('##### DESPESAS CADA USUÁRIO #####')
+                        print('{} pagou um total de R$ {:.2f}'.format(todos[0], valorTotalUsuario0))
+                        if len(todos) > 1:
+                            print('{} pagou um total de R$ {:.2f}'.format(todos[1], valorTotalUsuario1))
+                        input('Digite ENTER para continuar ')
 
-            elif opcaofinal == '2':
-                print('##### DESPESAS CADA USUÁRIO #####')
-                print('{} pagou um total de R$ {:.2f}'.format(todos[0], valorTotalUsuario0))
-                print('{} pagou um total de R$ {:.2f}'.format(todos[1], valorTotalUsuario1))
-                input('Digite ENTER para continuar ')
-
-            elif opcaofinal == '3':
-                print('##### QUEM DEVE O QUE #####')
-                valorPagamento = valorTotalUsuario0 - mediaValores
-                if valorPagamento > 0:
-                    print('{} deve pagar R$ {:.2f} a {}'.format(todos[1], valorPagamento, todos[0]))
+                    elif opcaofinal == '3':
+                        print('##### QUEM DEVE O QUE #####')
+                        if len(todos) > 1:
+                            valorPagamento = valorTotalUsuario0 - mediaValores
+                            if valorPagamento > 0:
+                                print('{} deve pagar R$ {:.2f} a {}'.format(todos[1], abs(valorPagamento), todos[0]))
+                            elif valorPagamento < 0:
+                                print('{} deve pagar R$ {:.2f} a {}'.format(todos[0], abs(valorPagamento), todos[1]))
+                            elif valorPagamento == 0:
+                                print('Ninguém ta devendo nada a ninguém.')
+                            input('Digite ENTER para continuar ')
+                        else:
+                            print('Arrume alguém pra dividir as contas!!')
+                            input('Digite ENTER para continuar ')
+                    elif opcaofinal == '0':
+                        break
+                    else:
+                        print('Opção ínválida')
+                        input('Digite ENTER para continuar ')
+                # Vai rodar caso CONTAS estiver vazio
                 else:
-                    print('{} deve pagar R$ {:.2f} a {}'.format(todos[0], valorPagamento, todos[1]))
-                input('Digite ENTER para continuar ')
-            elif opcaofinal == '0':
-                break
+                    print('Você não tem contas cadastradas')
+                    input('Digite ENTER para continuar ')
+                    break
+            # Vai rodas caso TODOS estiver vazio
             else:
-                print('Opção ínválida')
-                input('Digite ENTER para continuar ')
+                print('Você não tem usuários cadastrados')
+                input('Digite ENTER pra continuar ')
+                break
 
     elif escolha1 == '0':
         print('Volte sempre!')
