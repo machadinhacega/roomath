@@ -30,15 +30,19 @@ Iza, designer, 26 anos, usuário do roomath.
                     
 > *"O roomath salvou meu casamento"*
 
+:house:
+
+> *"Quase processei meu irmão, agora podemos fazer o controle de gastos aqui de casa usando o Roomath e fica super justo pra todos, ajudou demais a relação familiar"*
+
 Nayeli, bibliotecária, 27 anos, usuário do roomath.
 
 ### Idealizadoras:
 
-[<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/machadinhacega) Iza deBug Machado
+[<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/machadinhacega)   Iza deBug Machado
 
-[<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/ligeiadev) Marília Coder Nunes
+[<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/ligeiadev)   Marília Coder Nunes
 
-[<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/nayelidev) Nayeli Dev Feitosa 
+[<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/nayelidev)   Nayeli Dev Feitosa 
 
 ![](https://user-images.githubusercontent.com/68659584/90925948-80144d80-e3c8-11ea-86d4-22ad217d7230.jpg)
 
