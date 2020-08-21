@@ -34,11 +34,11 @@ Nayeli, bibliotecária, 27 anos, usuário do roomath.
 
 ### Idealizadoras:
 
-Iza deBug Machado [Links](https://github.com/machadinhacega)
+Iza deBug Machado [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/machadinhacega)
 
-Marília Coder Nunes [Links](https://github.com/Ligeiadev)
+Marília Coder Nunes [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/ligeiadev)
 
-Nayeli Dev Feitosa [Links](https://github.com/NayeliDev)
+Nayeli Dev Feitosa [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='20'>](https://github.com/nayelidev)
 
 ![](https://user-images.githubusercontent.com/68659584/90925948-80144d80-e3c8-11ea-86d4-22ad217d7230.jpg)
 
