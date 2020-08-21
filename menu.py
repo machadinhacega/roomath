@@ -1,5 +1,58 @@
+import csv
+import os
+from time import sleep
 todos = []
 contas = {}
+
+
+saudacao = """Olá, seja bem vinde ao Roomath, a combinação perfeita no fim do mês.
+pow pow pei pow. *Fogos de Alegria*
+Você é nova por aqui ou já é cadastrade?
+(Digite "nova" ou "cadastrade")"""
+# for i in saudacao:
+#     sleep(0.05)
+#     print(i, end='')
+print(saudacao)
+
+# Verificando se a pessoa ja é cadatrada. Caso não seja, o programa vai criar uma planilha nova
+questInicio = input('\n► ').lower()
+while questInicio not in 'nova cadastrade cadastrado cadastrada':
+    questInicio = input('Não entendi, você é nova ou cadastrade?\n► ')
+
+if questInicio == 'nova':
+    # Criando as planilhas se a pessoa for NOVA
+    contas = {}
+    todos = []
+    with open('roomath_contas.csv', 'w', newline='') as csvfile:
+        fieldnames = []
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    with open('roomath_perfis.csv', 'w', newline='') as csvfile:
+        fieldnames = []
+        writer2 = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+elif questInicio == 'cadastrado' or questInicio == 'cadastrada' or questInicio == 'cadastrade':
+    # Acessando planilha: Atualizando nosso código com os dados da planilha Existente
+    contas = {}
+    todos = []
+    if os.path.exists('./roomath_contas.csv') and os.path.exists('./roomath_perfis.csv'):
+        with open('roomath_contas.csv', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                contas[row['Conta']] = {'Valor': float(row['Valor']), 'Status': row['Status'], 'Pagante': row['Pagante']}
+
+        with open('roomath_perfis.csv', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                todos.append(row['Perfil'])
+    else:
+        print('CARALHO, TU MENTE NÉ?\nVocê não tem nenhum dado, mas as gente é legal e te cadastrou aqui.')
+        with open('roomath_contas.csv', 'w', newline='') as csvfile:
+            fieldnames = []
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        with open('roomath_perfis.csv', 'w', newline='') as csvfile:
+            fieldnames = []
+            writer2 = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
 
 while True:
     escolha1 = input("""\n###############################
@@ -10,7 +63,7 @@ Escolha sua opção
 1 - Gerenciar perfil de usuário 
 2 - Gerenciar Contas 
 3 - Mostrar Valor 
-0 - Fechar o programa
+0 - Salvar os dados e Sair
 ►  """)
 
     if escolha1 == '1':
@@ -163,6 +216,19 @@ Escolha uma opção:
                             if valorTotal > valorTotalPago:
                                 print('ATENÇÃO! Você tem contas em aberto. Falta cada uma pagar R$ {:.2f}.'
                                       .format((valorTotal - valorTotalPago) / 2))
+                            if valorPagamento != 0:
+                                # Enviando um e-mail de cobrança
+                                questEnviar = input('Quer enviar um e-mail de cobrança? \n► ').lower()
+                                while questEnviar != 'sim' and questEnviar != 'não':
+                                    questEnviar = input('PQP, digita "sim" ou "não" carai. Anitta sabe...\n► ')
+                                if questEnviar == 'sim':
+                                    from funcoes_email import sendEmailCobranca
+
+                                    sendEmailCobranca(input('E-mail para envio: '), str(abs(valorPagamento)),
+                                                      input('Digite o código do boleto: '))
+                                    print('\nE-mail enviado com sucesso!')
+                                elif questEnviar == 'não':
+                                    print('Tudo bem, mas não esqueça de avisá-la')
                             input('Digite ENTER para continuar ')
                         else:
                             print('Arrume alguém pra dividir as contas!!')
@@ -189,6 +255,23 @@ Escolha uma opção:
 
     elif escolha1 == '0':
         print('Volte sempre!')
+        # Atualizando nossas planilhas com os dados do código
+        with open('roomath_contas.csv', 'w', newline='') as csvfile:
+            fieldnames = ['Conta', 'Valor', 'Status', 'Pagante']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writeheader()
+            for conta, infosContas in contas.items():
+                writer.writerow({'Conta': conta, 'Valor': infosContas['Valor'],
+                                 'Status': infosContas['Status'], 'Pagante': infosContas['Pagante']})
+
+        with open('roomath_perfis.csv', 'w', newline='') as csvfile:
+            fieldnames = ['Perfil']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writeheader()
+            for perfil in todos:
+                writer.writerow({'Perfil': perfil})
         break
 
     else:
@@ -203,14 +286,3 @@ Escolha uma opção:
 # from funcoes_email import enviandoLembrete
 # #enviandoLembrete()
 #
-## Enviando um e-mail de cobrança
-# questEnviar = input('Quer enviar uma mesagem para pessoa que te deve?\n► ').lower()
-# while questEnviar != 'sim' and questEnviar != 'não':
-#     questEnviar = input('PQP, digita "sim" ou "não" carai. Anitta sabe...\n► ')
-# if questEnviar == 'sim':
-#     from funcoes_email import sendEmailCobranca
-#     sendEmailCobranca(input('E-mail para envio: '),input('Valor pra Cobrar: '),input('Digite o código do boleto: '))
-#     print('\nE-mail enviado com sucesso!')
-# elif questEnviar == 'não':
-#     print('Tudo bem, mas não esqueça de avisá-la')
-#     input('Digite ENTER para continuar')
