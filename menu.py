@@ -1,23 +1,18 @@
 import csv
 import os
-from time import sleep
 todos = []
 contas = {}
 
 
-saudacao = """Olá, seja bem vinde ao Roomath, a combinação perfeita no fim do mês.
+print("""Seja bem vinde ao Roomath, a combinação perfeita no fim do mês.
 pow pow pei pow. *Fogos de Alegria*
-Você é nova por aqui ou já é cadastrade?
-(Digite "nova" ou "cadastrade")"""
-# for i in saudacao:
-#     sleep(0.05)
-#     print(i, end='')
-print(saudacao)
+Você é nova por aqui ou já é cadastrada?
+(Digite "nova" ou "cadastrada")""")
 
 # Verificando se a pessoa ja é cadatrada. Caso não seja, o programa vai criar uma planilha nova
 questInicio = input('\n► ').lower()
 while questInicio not in 'nova cadastrade cadastrado cadastrada':
-    questInicio = input('Não entendi, você é nova ou cadastrade?\n► ')
+    questInicio = input('Não entendi, você é nova ou cadastrada?\n► ')
 
 if questInicio == 'nova':
     # Criando as planilhas se a pessoa for NOVA
@@ -38,7 +33,7 @@ elif questInicio == 'cadastrado' or questInicio == 'cadastrada' or questInicio =
         with open('roomath_contas.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                contas[row['Conta']] = {'Valor': float(row['Valor']), 'Status': row['Status'], 'Pagante': row['Pagante']}
+                contas[row['Conta']] = {'Valor': float(row['Valor']), 'Status': row['Status'], 'Pagante': row['Pagante'], 'Fixa': row['Fixa']}
 
         with open('roomath_perfis.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -53,6 +48,10 @@ elif questInicio == 'cadastrado' or questInicio == 'cadastrada' or questInicio =
             fieldnames = []
             writer2 = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
+print('TESTE 2')
+for k, v in contas.items():
+    print(k, '  ----->  ',v)
+print('Volte sempre!')
 
 while True:
     escolha1 = input("""\n###############################
@@ -255,15 +254,19 @@ Escolha uma opção:
 
     elif escolha1 == '0':
         print('Volte sempre!')
+        break
+    
         # Atualizando nossas planilhas com os dados do código
         with open('roomath_contas.csv', 'w', newline='') as csvfile:
-            fieldnames = ['Conta', 'Valor', 'Status', 'Pagante']
+            fieldnames = ['Conta', 'Valor', 'Status', 'Pagante', 'Fixa']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
             writer.writeheader()
             for conta, infosContas in contas.items():
                 writer.writerow({'Conta': conta, 'Valor': infosContas['Valor'],
-                                 'Status': infosContas['Status'], 'Pagante': infosContas['Pagante']})
+                                 'Status': infosContas['Status'], 
+                                 'Pagante': infosContas['Pagante'], 
+                                 'Fixa': infosContas['Fixa']})
 
         with open('roomath_perfis.csv', 'w', newline='') as csvfile:
             fieldnames = ['Perfil']
@@ -272,17 +275,7 @@ Escolha uma opção:
             writer.writeheader()
             for perfil in todos:
                 writer.writerow({'Perfil': perfil})
-        break
-
+        
     else:
         print('Opção ínválida')
         input('Digite ENTER para continuar ')
-
-
-# ------------------------------------------------------------------------------------------------
-# ---------------------------- ENVIANDO E-MAIL -----------------------------------------
-# ------------------------------------------------------------------------------------------------
-## Aqui é pra se a pessoa quiser enviar um lembrete pra pagar as contas e plau
-# from funcoes_email import enviandoLembrete
-# #enviandoLembrete()
-#

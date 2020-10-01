@@ -38,7 +38,7 @@ pois então, você ta devendo pra sua roomate"""
     server.quit()
 
 
-# Enviando e-mail de Lembrete
+# Enviando e-mail de Lembrete (ainda vai ser implementado)
 
 def sendEmailLembrte (email):
     smtp_ssl_host = 'smtp.gmail.com'
@@ -72,7 +72,7 @@ def enviandoLembrete():
     Então não se sinta culpadi
     Enfim, você quer que eu te lembre?"""
 
-# Aqui eu quis escrever como se estivesse digitando kkkkk
+# Aqui é para dar a impressão de digitação
 
     for i in txt:
         sleep(0.05)
