@@ -92,25 +92,40 @@ def adicionarConta(contas,todos):
     # restringindo o status para receber apenas Pago ou Em aberto
     while status != 'Pago' and status != 'Em Aberto':
       status = input("Por favor, digite uma das opções a seguir (Pago ou Em aberto): ").title()
+    
     contas[nomeConta] = {
       'Valor': float(valor),
       'Status': status,
       'Pagante': 'Ninguém pagou ainda :('
     }
+    #Restringindo contas pagas para add pagante
     if contas[nomeConta]['Status'] == 'Pago':
       if todos:
         print('Quem pagou a conta? Escolha um dos perfis registrados:')
         for i in todos:
           print(i)
+        #pagante recebe o nome digitado
         contas[nomeConta]['Pagante'] = input('► ').title().strip()
+        #Verifica se o nome digitado esta cadastrado
         while contas[nomeConta]['Pagante'] not in todos:
           print('Por favor, escolha um perfil registrado')
           for i in todos:
             print(i)
+          #sobreescreve para q pagante receba o nome digitado válido
           contas[nomeConta]['Pagante'] = input('Quem pagou a conta: ').title().strip()
+      #Caso não tenha perfis registrados não cadastra
       else:
         print('Você não pode adicionar pagantes por que não tem nenhum perfil cadastrado.'
               '\nMas fique tranquile, você pode editar essa conta futuramente.')
+    #Registra se é fixa  ou não
+    questFixa = input('Você deseja registrar a conta de {} como uma conta fixa? \n► '.format(nomeConta)).lower()
+    while questFixa not in "sim não":
+      questFixa = input('Opção inválida. \nVocê deseja registrar a conta de {} como uma conta fixa? \n► '.format(nomeConta))
+    if questFixa == 'sim':
+      contas[nomeConta]['Fixa'] = 'Conta fixa'
+    elif questFixa =='não':
+      contas[nomeConta]['Fixa'] = 'Conta Temporária'
+
     print('Conta de {} adicionada.'.format(nomeConta))
     questAdicionarConta = input('Você deseja adicionar outra conta?  ').lower()
     while questAdicionarConta != 'não' and questAdicionarConta != 'sim':
@@ -144,9 +159,6 @@ def buscarContaStatus(contas):
     statusBusca = input('Você deseja buscar contas "Pagas" ou "Em aberto"? ').lower()
     while statusBusca != 'pagas' and statusBusca != 'em aberto':
       statusBusca = input('Por favor, digite uma das opções a seguir (Pagas ou Em aberto): ').lower()
-      # Mostrando cada conta registrada
-      for k, v in contas.items():
-        print(k, end='. ')
     # Buscando contas pagas
     if statusBusca == 'pagas':
       print('\nContas Pagas: ')
@@ -217,6 +229,15 @@ def editarConta(contas, todos):
       else:
         print('Você não pode adicionar pagantes por que não tem nenhum perfil cadastrado.'
               '\nMas fique tranquile, você pode editar essa conta futuramente.')
+    
+    #Registra se é fixa  ou não
+    questFixa = input('Você deseja registrar a conta de {} como uma conta fixa? \n► '.format(nomeConta)).lower()
+    while questFixa not in "sim não":
+      questFixa = input('Opção inválida. \nVocê deseja registrar a conta de {} como uma conta fixa? \n► '.format(nomeConta))
+    if questFixa == 'sim':
+      contas[nomeConta]['Fixa'] = 'Conta Fixa'
+    elif questFixa =='não':
+      contas[nomeConta]['Fixa'] = 'Conta Temporária'
     print('Conta de {} editada com sucesso.'.format(nomeConta))
     input('Digite ENTER para continuar')
   else:
@@ -225,15 +246,34 @@ def editarConta(contas, todos):
 
 
 def excluirConta(contas):
+  print('Suas contas atuais: ')
   if contas:
+    for k, v in contas.items():
+      print(k, end='. ')
     nomeConta = input('Digite o nome da conta que deseja Excluir: ').title()
     while nomeConta not in contas:
       print('A conta "{}" não esta cadastrada. Escolha uma das contas cadastradas:'.format(nomeConta))
       for k, v in contas.items():
         print(k, end='. ')
       nomeConta = input('\nDigite uma conta válida: ').title()
-    contas.pop(nomeConta)
-    print('Conta de {} excluída'.format(nomeConta))
+    questConfirm = input('Tem certeza que deseja excluir a conta de {}? \n► '.format(nomeConta)).lower()
+    while questConfirm != 'sim' and questConfirm != 'não':
+      questConfirm = input('Opção nválida. \nTem certeza que deseja excluir a conta de {}? \n► '.format(nomeConta)).lower()
+    if questConfirm == 'sim':
+      if contas[nomeConta]['Fixa'] == 'Conta fixa':
+        questConfirmFixa = input('Essa é uma conta fixa. Você quer realmente excluir?\n► ').lower()
+        while questConfirmFixa != 'sim' and questConfirmFixa != 'não':
+          questConfirmFixa = input('Opção inválida. Digite Sim ou Não. \nEssa é uma conta fixa. Você quer realmente excluir?\n► ').lower()
+        if questConfirmFixa == 'sim':
+          contas.pop(nomeConta)
+          print('Conta de {} excluída'.format(nomeConta))
+        elif questConfirmFixa =='não':
+          print('Ok. Nós NÃO enxcluímos a conta.')
+      else:
+        contas.pop(nomeConta)
+        print('Conta de {} excluída'.format(nomeConta))
+    elif questConfirm == 'não':
+      print('Se você não tem certeza é melhor não excluir')
     input('Digite ENTER para continuar')
   else:
     print('Você não tem nenhuma conta cadastrada')
