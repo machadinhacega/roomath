@@ -1,0 +1,4 @@
+Conta,Valor,Status,Pagante,Fixa
+Agua,2342.0,Pago,Carol,Conta fixa
+Luz,523.0,Pago,Lobo,Conta Temporária
+Pastel,15.0,Em Aberto,Ninguém pagou ainda :(,Conta Temporária
