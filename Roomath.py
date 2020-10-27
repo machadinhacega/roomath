@@ -48,11 +48,6 @@ elif questInicio == 'cadastrado' or questInicio == 'cadastrada' or questInicio =
             fieldnames = []
             writer2 = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-print('TESTE 2')
-for k, v in contas.items():
-    print(k, '  ----->  ',v)
-print('Volte sempre!')
-
 while True:
     escolha1 = input("""\n###############################
 ########## ROOMATH ###########
@@ -165,72 +160,91 @@ Escolha uma opção:
 3 - Quem deve a quem e quanto
 0 - Voltar
 ►  """)
-                    # valor total das depesas da casa
+                    #VALOR TOTAL
                     valorTotal = 0
                     valorTotalPago = 0
                     for conta in contas:
                         valorTotal += contas[conta]['Valor']
                         if contas[conta]['Status'] == 'Pago':
-                            valorTotalPago += contas[conta]['Valor']
-
-                    # descobrir o quanto um usuário pagou
-                    valorTotalUsuario0 = 0
-                    for conta in contas:
-                        if contas[conta]['Pagante'] == todos[0]:
-                            valorTotalUsuario0 += contas[conta]['Valor']
-
-                    # saber o q o outro pagou é valorTotal-valorTotalUsuario0
-                    valorTotalUsuario1 = valorTotalPago - valorTotalUsuario0
-
-                    # descobrir a parte que cabe a cada um nas despesas da casa
-                    mediaValores = valorTotal / 2
-                    mediaValoresPagos = valorTotalPago / 2
-
+                            valorTotalPago += contas[conta]['Valor']  
+                    #VALOR PAGO MORADORES
+                    cont = 0
+                    valorPagoMoradores = []
+                    for perfil in todos:
+                        totalPerfil = 0
+                        for conta, dados in contas.items():
+                            for item, info in dados.items():
+                                if info == perfil:
+                                    totalPerfil += dados['Valor']
+                        valorPagoMoradores.append(totalPerfil)                
+                    
                     if opcaofinal == '1':
                         print('##### TOTAL DE DESPESAS #####')
-                        print('O total das despesas foi R$ {:.2f}\nFicou R$ {:.2f} para cada pessoa.'.format(valorTotal,
-                                                                                                             mediaValores))
+                        print('O valor total das despesas foi de R$ {:.2f} \nO valor pago ate o momento é de R$ {:.2f}'.format(valorTotal,valorTotalPago))
                         input('Digite ENTER para continuar ')
-
                     elif opcaofinal == '2':
                         print('##### DESPESAS CADA USUÁRIO #####')
-                        print('{} pagou um total de R$ {:.2f}'.format(todos[0], valorTotalUsuario0))
-                        if len(todos) > 1:
-                            print('{} pagou um total de R$ {:.2f}'.format(todos[1], valorTotalUsuario1))
+                        cont = 0
+                        for perfil in todos:
+                            print('{} pagou R$ {:.2f} das contas totais'.format(todos[cont], valorPagoMoradores[cont]))
+                            cont += 1
+
                         if valorTotal > valorTotalPago:
-                            print('ATENÇÃO! Você tem contas em aberto. Falta cada uma pagar R$ {:.2f}.'
-                                  .format((valorTotal - valorTotalPago) / 2))
+                            print('ATENÇÃO! Você ainda tem contas em aberto.')
                         input('Digite ENTER para continuar ')
 
                     elif opcaofinal == '3':
                         print('##### QUEM DEVE O QUE #####')
+                        # 1. valor que cada morador pagou dividido pela quantidade de moradores
                         if len(todos) > 1:
-                            valorPagamento = valorTotalUsuario0 - mediaValoresPagos
-                            if valorPagamento > 0:
-                                print('{} deve pagar R$ {:.2f} a {}'.format(todos[1], abs(valorPagamento), todos[0]))
-                            elif valorPagamento < 0:
-                                print('{} deve pagar R$ {:.2f} a {}'.format(todos[0], abs(valorPagamento), todos[1]))
-                            elif valorPagamento == 0:
-                                print('Ninguém ta devendo nada a ninguém.')
-                            if valorTotal > valorTotalPago:
-                                print('ATENÇÃO! Você tem contas em aberto. Falta cada uma pagar R$ {:.2f}.'
-                                      .format((valorTotal - valorTotalPago) / 2))
-                            if valorPagamento != 0:
-                                # Enviando um e-mail de cobrança
-                                questEnviar = input('Quer enviar um e-mail de cobrança? \n► ').lower()
-                                while questEnviar != 'sim' and questEnviar != 'não':
-                                    questEnviar = input('PQP, digita "sim" ou "não" carai. Anitta sabe...\n► ')
-                                if questEnviar == 'sim':
-                                    from funcoes_email import sendEmailCobranca
+                            valorDivididoMoradores = []
+                            for valor in valorPagoMoradores:
+                                valorDividido = valor/len(todos)
+                                valorDivididoMoradores.append(valorDividido)
+                            print(valorDivididoMoradores)
 
-                                    sendEmailCobranca(input('E-mail para envio: '), str(abs(valorPagamento)),
-                                                      input('Digite o código do boleto: '))
-                                    print('\nE-mail enviado com sucesso!')
-                                elif questEnviar == 'não':
-                                    print('Tudo bem, mas não esqueça de avisá-la')
+                            # 2. Dicionário com o nome de cada um que deve receber
+                            receber = {}
+                            for posicao, perfil in enumerate (todos):
+                                receber[perfil] = {}
+
+                            # 3. Atualização do dicionário com os nomes e quantidade de quem deve pagar
+                            for posicaoP, perfil in enumerate(todos):
+                                for posicaoV, valor in enumerate(valorDivididoMoradores):
+                                    if valorDivididoMoradores[posicaoP] != valorDivididoMoradores[posicaoV]:
+                                        valorAReceber = valorDivididoMoradores[posicaoP] - valorDivididoMoradores[posicaoV]
+                                        receber[perfil][todos[posicaoV]] = valorAReceber
+
+                            for perfil in todos:
+                                selectPerfil = perfil
+
+                                for perfil, dados in receber.items():
+                                    if perfil == selectPerfil:
+                                        for pagante, valor in dados.items():
+                                            if valor > 0:
+                                                print('{} está devendo R$ {:.2f} para {}'.format(pagante,abs(valor),perfil))
+                                            elif valor < 0:
+                                                print('{} está devendo R$ {:.2f} para {}'.format(perfil,abs(valor),pagante))
+                                            else:
+                                                print('Ninguém deve nada a ninguém')
+                                
+                            # Enviando um e-mail de cobrança
+                            questEnviar = input('Quer enviar um e-mail de cobrança? \n► ').lower()
+                            while questEnviar != 'sim' and questEnviar != 'não':
+                                questEnviar = input('por favor, difite "sim" ou "não"\n► ')
+                            if questEnviar == 'sim':
+                                from funcoes_email import sendEmailCobranca
+
+                                sendEmailCobranca(input('E-mail para envio: '), str(abs(valorPagamento)),
+                                                    input('Digite o código do boleto: '))
+                                print('\nE-mail enviado com sucesso!')
+                            elif questEnviar == 'não':
+                                print('Tudo bem, mas não esqueça de avisá-la')
                             input('Digite ENTER para continuar ')
+                                
+                        
                         else:
-                            print('Arrume alguém pra dividir as contas!!')
+                            print('Você mora só. Arrume alguém pra dividir as contas!!')
                             input('Digite ENTER para continuar ')
 
 
@@ -254,7 +268,7 @@ Escolha uma opção:
 
     elif escolha1 == '0':
         print('Volte sempre!')
-        break
+        
     
         # Atualizando nossas planilhas com os dados do código
         with open('roomath_contas.csv', 'w', newline='') as csvfile:
@@ -275,7 +289,7 @@ Escolha uma opção:
             writer.writeheader()
             for perfil in todos:
                 writer.writerow({'Perfil': perfil})
-        
+        break
     else:
         print('Opção ínválida')
         input('Digite ENTER para continuar ')

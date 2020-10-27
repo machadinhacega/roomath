@@ -4,23 +4,16 @@
 
 def adicionarUsuario(todos):
   while True:
-    if len(todos) < 2:
-      nomeusuario = input('Digite um nome para adicionar: ').title().strip()
-      while len(nomeusuario) < 3:
-        nomeusuario = input('Isso não é nome, digite direito, feladaputa: ').title().strip()
-      todos.append(nomeusuario)
-      print('Cadastro de {} realizado com sucesso'.format(nomeusuario))
-      questNovoUsuario = input('Você gostaria de adicionar mais um perfil? ').lower()
-      while questNovoUsuario!= 'sim' and questNovoUsuario != 'não':
-        questNovoUsuario = input('Por favor, digite SIM ou NÃO: ')
-      if questNovoUsuario == 'não':
-        break
-    else:
-      print('Você já tem 2 usuários cadastrados e a sua casa é muuuuito pequena.')
-      input('Digite ENTER para continuar')
+    nomeusuario = input('Digite um nome para adicionar: ').title().strip()
+    while len(nomeusuario) < 3:
+      nomeusuario = input('Isso não é nome, digite direito, feladaputa: ').title().strip()
+    todos.append(nomeusuario)
+    print('Cadastro de {} realizado com sucesso'.format(nomeusuario))
+    questNovoUsuario = input('Você gostaria de adicionar mais um perfil? ').lower()
+    while questNovoUsuario!= 'sim' and questNovoUsuario != 'não':
+      questNovoUsuario = input('Por favor, digite SIM ou NÃO: ')
+    if questNovoUsuario == 'não':
       break
-
-
 
 
 def editarUsuario(todos):
